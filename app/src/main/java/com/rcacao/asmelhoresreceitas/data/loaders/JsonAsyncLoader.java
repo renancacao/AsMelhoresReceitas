@@ -1,14 +1,13 @@
 package com.rcacao.asmelhoresreceitas.data.loaders;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.rcacao.asmelhoresreceitas.data.models.models.Recipe;
+import com.rcacao.asmelhoresreceitas.data.models.Recipe;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,14 +20,12 @@ public class JsonAsyncLoader extends AsyncTaskLoader<Recipe[]> {
 
     private final String TAG = getClass().getName();
 
-    public static final String ARG_URL = "url";
+    private static final String URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
 
-    private Bundle args;
     private Recipe[] recipes;
 
-    public JsonAsyncLoader(@NonNull Context context, Bundle args) {
+    public JsonAsyncLoader(@NonNull Context context) {
         super(context);
-        this.args = args;
     }
 
 
@@ -48,15 +45,7 @@ public class JsonAsyncLoader extends AsyncTaskLoader<Recipe[]> {
     @Override
     public Recipe[] loadInBackground() {
 
-        String url;
-        if (args.containsKey(ARG_URL)){
-            url = args.getString(ARG_URL);
-        }
-        else{
-            return null;
-        }
-
-        String content = getContentFromUrl(url);
+        String content = getContentFromUrl(URL);
         recipes = new Gson().fromJson(content, Recipe[].class);
 
         return recipes;
