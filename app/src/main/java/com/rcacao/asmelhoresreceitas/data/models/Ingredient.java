@@ -3,7 +3,7 @@ package com.rcacao.asmelhoresreceitas.data.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Ingredient implements RecipeItem, Parcelable{
+public class Ingredient implements ListItem, Parcelable{
 
     private double quantity;
     private String measure;
@@ -29,7 +29,7 @@ public class Ingredient implements RecipeItem, Parcelable{
 
     @Override
     public String getType() {
-        return RecipeItem.TYPE_INGREDIENT;
+        return ListItem.TYPE_INGREDIENT;
     }
 
     @Override
@@ -38,29 +38,18 @@ public class Ingredient implements RecipeItem, Parcelable{
     }
 
     @Override
-    public String getText() {
+    public String getTitle() {
         return ingredient;
     }
 
     @Override
-    public String getTextAux1() {
+    public String getAuxText1() {
         return String.valueOf(quantity);
     }
 
     @Override
-    public String getTextAux2() {
+    public String getAuxText2() {
         return measure;
-    }
-
-
-    @Override
-    public String getImageUrl() {
-        return null;
-    }
-
-    @Override
-    public String getVideoUrl() {
-        return null;
     }
 
     @Override

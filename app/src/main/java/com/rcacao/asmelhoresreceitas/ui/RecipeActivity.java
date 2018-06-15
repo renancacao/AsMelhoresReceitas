@@ -8,8 +8,9 @@ import android.support.v7.widget.RecyclerView;
 
 import com.rcacao.asmelhoresreceitas.R;
 import com.rcacao.asmelhoresreceitas.adapter.RecipeItensAdapter;
+import com.rcacao.asmelhoresreceitas.data.models.GenericItem;
 import com.rcacao.asmelhoresreceitas.data.models.Recipe;
-import com.rcacao.asmelhoresreceitas.data.models.RecipeItem;
+import com.rcacao.asmelhoresreceitas.data.models.ListItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +26,7 @@ public class RecipeActivity extends AppCompatActivity {
 
     public static final String ARG_RECIPE = "recipe";
 
-    ArrayList<RecipeItem> itens;
+    ArrayList<ListItem> itens;
     RecipeItensAdapter adapter;
 
     private Recipe recipe = null;
@@ -46,8 +47,6 @@ public class RecipeActivity extends AppCompatActivity {
             finish();
         }
 
-
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerViewRecipeItens.setLayoutManager(layoutManager);
 
@@ -59,7 +58,16 @@ public class RecipeActivity extends AppCompatActivity {
     private void loadItens() {
 
         itens = new ArrayList<>();
+
+        //nome da receita
+        itens.add(new GenericItem(recipe.getName(), recipe.getServings() + " porções", recipe.getImage()));
+
+        //ingredientes
+        itens.add(new GenericItem("Ingredientes", "",""));
         itens.addAll(Arrays.asList(recipe.getIngredients()));
+
+        //passo a passo
+        itens.add(new GenericItem("Passo a passo", "",""));
         itens.addAll(Arrays.asList(recipe.getSteps()));
 
         adapter = new RecipeItensAdapter(itens);

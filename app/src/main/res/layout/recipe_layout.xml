@@ -16,13 +16,11 @@
         <TextView
             android:id="@+id/textViewRecipe"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_height="19dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageViewRecipe"
@@ -34,11 +32,31 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:cropToPadding="false"
-            android:scaleType="fitXY"
+            android:scaleType="fitCenter"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/textViewServings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textViewRecipe"
+            app:layout_constraintTop_toBottomOf="@+id/textViewRecipe"
+            tools:text="0" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Porções"
+            app:layout_constraintStart_toEndOf="@+id/textViewServings"
+            app:layout_constraintTop_toTopOf="@+id/textViewServings" />
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rcacao.asmelhoresreceitas.R;
+import com.rcacao.asmelhoresreceitas.Utils.MyUtils;
 import com.rcacao.asmelhoresreceitas.data.models.Recipe;
-import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +30,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     }
 
 
-
     @NonNull
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -44,9 +43,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         Recipe recipe = recipes[position];
         holder.textViewRecipe.setText(recipe.getName());
-        loadImage(holder.imageViewRecipe,recipe.getImage());
+        holder.textViewServings.setText(String.valueOf(recipe.getServings()));
+        MyUtils.loadImage(holder.imageViewRecipe,recipe.getImage());
         holder.bindClick(position);
-
 
     }
 
@@ -72,6 +71,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         @BindView(R.id.imageViewRecipe)
         ImageView imageViewRecipe;
 
+        @BindView(R.id.textViewServings)
+        TextView textViewServings;
+
         RecipeViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -86,21 +88,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                     handler.clickRecipe(id);
                 }
             });
-
         }
 
 
     }
 
-    private void loadImage(ImageView imageView, String url) {
 
-        if (!url.isEmpty()){
-            Picasso.get().load(url).into(imageView);
-            imageView.setVisibility(View.VISIBLE);
-        }
-        else{
-            imageView.setVisibility(View.GONE);
-        }
-
-    }
 }

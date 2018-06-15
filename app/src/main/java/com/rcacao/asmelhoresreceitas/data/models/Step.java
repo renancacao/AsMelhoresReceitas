@@ -3,7 +3,7 @@ package com.rcacao.asmelhoresreceitas.data.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Step implements RecipeItem, Parcelable {
+public class Step implements ListItem, Parcelable {
 
     private int id;
     private String shortDescription;
@@ -11,7 +11,7 @@ public class Step implements RecipeItem, Parcelable {
     private String videoURL;
     private String thumbnailURL;
 
-    protected Step(Parcel in) {
+    private Step(Parcel in) {
         id = in.readInt();
         shortDescription = in.readString();
         description = in.readString();
@@ -33,7 +33,7 @@ public class Step implements RecipeItem, Parcelable {
 
     @Override
     public String getType() {
-        return RecipeItem.TYPE_STEP;
+        return ListItem.TYPE_STEP;
     }
 
     @Override
@@ -42,29 +42,18 @@ public class Step implements RecipeItem, Parcelable {
     }
 
     @Override
-    public String getText() {
+    public String getTitle() {
         return shortDescription;
     }
 
     @Override
-    public String getTextAux1() {
-        return String.valueOf(id);
-    }
-
-    @Override
-    public String getTextAux2() {
-        return null;
-    }
-
-
-    @Override
-    public String getImageUrl() {
-        return thumbnailURL;
-    }
-
-    @Override
-    public String getVideoUrl() {
+    public String getAuxText1() {
         return videoURL;
+    }
+
+    @Override
+    public String getAuxText2() {
+        return thumbnailURL;
     }
 
     @Override
