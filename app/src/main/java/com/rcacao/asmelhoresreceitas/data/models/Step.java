@@ -11,6 +11,14 @@ public class Step implements ListItem, Parcelable {
     private String videoURL;
     private String thumbnailURL;
 
+    public String getVideoURL() {
+        return videoURL;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     private Step(Parcel in) {
         id = in.readInt();
         shortDescription = in.readString();
@@ -48,7 +56,7 @@ public class Step implements ListItem, Parcelable {
 
     @Override
     public String getAuxText1() {
-        return videoURL;
+        return getVideoURL();
     }
 
     @Override
@@ -69,4 +77,6 @@ public class Step implements ListItem, Parcelable {
         parcel.writeString(videoURL);
         parcel.writeString(thumbnailURL);
     }
+
+
 }

@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rcacao.asmelhoresreceitas.R;
-import com.rcacao.asmelhoresreceitas.Utils.MyUtils;
+import com.rcacao.asmelhoresreceitas.utils.MyUtils;
 import com.rcacao.asmelhoresreceitas.data.models.Recipe;
 
 import butterknife.BindView;

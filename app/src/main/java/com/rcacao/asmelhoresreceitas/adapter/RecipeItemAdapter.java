@@ -9,22 +9,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rcacao.asmelhoresreceitas.R;
-import com.rcacao.asmelhoresreceitas.Utils.MyUtils;
+import com.rcacao.asmelhoresreceitas.utils.MyUtils;
 import com.rcacao.asmelhoresreceitas.data.models.ListItem;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class RecipeItensAdapter extends RecyclerView.Adapter<RecipeItensAdapter.RecipeItensViewHolder> {
+public class RecipeItemAdapter extends RecyclerView.Adapter<RecipeItemAdapter.RecipeItensViewHolder> {
 
     private final static int VIEW_INGREDIENT = 0;
     private final static int VIEW_STEP = 1;
     private final static int VIEW_GENERIC = 2;
 
     private ArrayList<ListItem> itens;
+    private RecipeItemAdapterClickHandler handler;
 
-    public RecipeItensAdapter(ArrayList<ListItem> itens) {
+    public interface RecipeItemAdapterClickHandler{
+        void clickRecipeItem(int id);
+    }
+
+    public RecipeItemAdapter(ArrayList<ListItem> itens, RecipeItemAdapterClickHandler handler) {
         this.itens = itens;
+        this.handler = handler;
     }
 
     @NonNull
@@ -94,6 +100,7 @@ public class RecipeItensAdapter extends RecyclerView.Adapter<RecipeItensAdapter.
             //thumb url
             MyUtils.loadImage(holder.imageViewStep,item.getAuxText2());
 
+            holder.bindClick(position);
 
         }
         else{
@@ -160,6 +167,15 @@ public class RecipeItensAdapter extends RecyclerView.Adapter<RecipeItensAdapter.
             imageViewGeneric = itemView.findViewById(R.id.imageViewGeneric);
 
 
+        }
+
+        void bindClick(final int id){
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    handler.clickRecipeItem(id);
+                }
+            });
         }
 
 

@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.RecipeActivity"></activity>
+        <activity android:name=".ui.StepActivity" />
     </application>
 
 </manifest>
