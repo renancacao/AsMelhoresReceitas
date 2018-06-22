@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.C;
@@ -22,16 +23,20 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.rcacao.asmelhoresreceitas.R;
+import com.rcacao.asmelhoresreceitas.data.models.Step;
 import com.rcacao.asmelhoresreceitas.utils.MyUtils;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class StepFragment extends Fragment  {
 
-    public static final String ARG_VIDEO_URL = "video_url";
-    public static final String ARG_DESCRIPTION = "description";
-    public static final String ARG_TITLE = "title";
+    public static final String ARG_STEP = "step";
+    public static final String ARG_TOTAL = "total";
+    public static final String ARG_ID = "id";
 
     @BindView(R.id.playerView)
     SimpleExoPlayerView playerView;
@@ -42,48 +47,89 @@ public class StepFragment extends Fragment  {
     @BindView(R.id.textViewTitle)
     TextView textViewTitle;
 
+    @BindView(R.id.imageViewNext)
+    ImageView imageViewNext;
+
+    @BindView(R.id.imageViewPrev)
+    ImageView imageViewPrev;
+
     SimpleExoPlayer exoPlayer;
 
-    private String description = "";
+    private Step mStep;
+    private int listID=-1;
+
     private String videoUrl = "";
-    private String title = "";
 
     private long playbackPosition = C.TIME_UNSET ;
     private int currentWindow= 0;
 
+    private OnNavigateClickListener mCallback;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        Bundle args = getArguments();
-        if(args!=null){
-
-            if (args.containsKey(ARG_VIDEO_URL)){
-                videoUrl=args.getString(ARG_VIDEO_URL);
-            }
-
-            if (args.containsKey(ARG_DESCRIPTION)){
-                description=args.getString(ARG_DESCRIPTION);
-            }
-
-            if (args.containsKey(ARG_TITLE)){
-                title=args.getString(ARG_TITLE);
-            }
-
-        }
-
         View rootView = inflater.inflate(R.layout.fragment_step, container, false);
         ButterKnife.bind(this, rootView);
 
-        if (videoUrl.isEmpty()){
-            playerView.setVisibility(View.GONE);
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        loadStep();
+    }
+
+    public void loadStep() {
+
+        if (getView()==null){return;}
+
+        Bundle args = getArguments();
+        int totalSteps=0;
+
+        if(args!=null){
+
+            if (args.containsKey(ARG_STEP)){
+                mStep=args.getParcelable(ARG_STEP);
+            }
+
+            if (args.containsKey(ARG_TOTAL)){
+                totalSteps=args.getInt(ARG_TOTAL);
+            }
+
+            if (args.containsKey(ARG_ID)){
+                listID=args.getInt(ARG_ID);
+            }
+
         }
 
-        textViewDescription.setText(description);
-        textViewTitle.setText(title);
+        if (mStep != null){
 
-        return rootView;
+            videoUrl = mStep.getVideoURL();
+            reloadPlayer();
+
+            playerView.setVisibility(videoUrl.isEmpty()? View.GONE : View.VISIBLE);
+
+            textViewDescription.setText(mStep.getDescription());
+            textViewTitle.setText(String.format(Locale.getDefault(),"%d. %s", mStep.getId(), mStep.getTitle()));
+
+            imageViewPrev.setVisibility(mStep.getId() > 0 ? View.VISIBLE : View.INVISIBLE);
+            imageViewNext.setVisibility(mStep.getId() < totalSteps-1 ? View.VISIBLE : View.INVISIBLE);
+
+        }
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mCallback = (OnNavigateClickListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " precisa implementar OnNavigateClickListener");
+        }
     }
 
     @Override
@@ -112,8 +158,7 @@ public class StepFragment extends Fragment  {
 
     private void initializePlayer(){
 
-        if (exoPlayer == null){
-
+        if (exoPlayer == null && !videoUrl.isEmpty()){
             Context context = getContext();
             if(context==null){
                 return;
@@ -148,6 +193,29 @@ public class StepFragment extends Fragment  {
         }
     }
 
+    private void reloadPlayer(){
+
+        releasePlayer();
+
+        playbackPosition = C.TIME_UNSET ;
+        currentWindow= 0;
+
+        initializePlayer();
+
+    }
+
+    @OnClick(R.id.imageViewNext) public void onClickImageViewNext(){
+        mCallback.onClickNext(listID);
+    }
+
+    @OnClick(R.id.imageViewPrev) public void onClickImageViewPrevious(){
+        mCallback.onClickPrevious(listID);
+    }
+
+    public interface OnNavigateClickListener{
+        void onClickNext(int actualId);
+        void onClickPrevious(int actualId);
+    }
 
 
 

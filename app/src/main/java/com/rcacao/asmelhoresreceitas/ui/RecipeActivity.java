@@ -53,7 +53,8 @@ public class RecipeActivity extends AppCompatActivity implements ListFragment.On
     public void onClickStep(int id) {
 
         Intent intent = new Intent(this, StepActivity.class);
-        intent.putExtra(StepActivity.ARG_STEP, recipe.getSteps()[id]);
+        intent.putExtra(StepActivity.ARG_STEPS, recipe.getSteps());
+        intent.putExtra(StepActivity.ARG_ID,id);
 
         startActivity(intent);
 

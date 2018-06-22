@@ -2,15 +2,24 @@ package com.rcacao.asmelhoresreceitas.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.rcacao.asmelhoresreceitas.R;
 import com.rcacao.asmelhoresreceitas.data.models.Step;
 import com.rcacao.asmelhoresreceitas.ui.fragment.StepFragment;
 
-public class StepActivity extends AppCompatActivity  {
+import java.util.Arrays;
 
-    public static final String ARG_STEP = "step";
+public class StepActivity extends AppCompatActivity implements StepFragment.OnNavigateClickListener {
+
+    public static final String ARG_STEPS = "steps";
+    public static final String ARG_ID = "id";
+
+    private Step steps[];
+    private int id;
+
+    private StepFragment stepFragment = new StepFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,35 +27,57 @@ public class StepActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_step);
 
         Intent intent = getIntent();
-        Step step = null;
 
         if (intent !=null){
-            step = getIntent().getParcelableExtra(ARG_STEP);
+            Parcelable parcels[] = intent.getParcelableArrayExtra(ARG_STEPS);
+            if (parcels != null) {
+                steps = Arrays.copyOf(parcels, parcels.length, Step[].class);
+            }
+            id = intent.getIntExtra(ARG_ID,0);
         }
 
-        if (step==null){
+        if (steps==null){
             finish();
             return;
         }
 
-        loadFragment(step.getVideoURL(), step.getDescription(), step.getTitle());
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container,stepFragment)
+                .commit();
+
+        loadStep(id);
 
     }
 
-    private void loadFragment(String videoUrl, String description, String title) {
-
-        StepFragment stepFragment = new StepFragment();
+    private void loadStep(int idStep) {
 
         Bundle args = new Bundle();
-        args.putString(StepFragment.ARG_VIDEO_URL,videoUrl);
-        args.putString(StepFragment.ARG_DESCRIPTION,description);
-        args.putString(StepFragment.ARG_TITLE,title);
+        args.putParcelable(StepFragment.ARG_STEP, steps[idStep]);
+        args.putInt(StepFragment.ARG_TOTAL,steps.length);
+        args.putInt(StepFragment.ARG_ID,idStep);
 
         stepFragment.setArguments(args);
+        stepFragment.loadStep();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,stepFragment)
-                .commit();
     }
 
 
+    @Override
+    public void onClickNext(int actualId) {
+
+        if (actualId < steps.length-1){
+            loadStep(actualId+1);
+        }
+
+    }
+
+    @Override
+    public void onClickPrevious(int actualId) {
+
+        if (actualId > 0){
+            loadStep(actualId-1);
+        }
+
+    }
 }
