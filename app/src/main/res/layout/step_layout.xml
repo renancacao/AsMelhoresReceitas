@@ -17,24 +17,26 @@
             android:id="@+id/textViewId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewStep"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewStep"
+            app:layout_constraintTop_toTopOf="@+id/textViewStep"
             tools:text="1." />
 
         <TextView
             android:id="@+id/textViewStep"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/textViewId"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageViewClip"
             app:layout_constraintStart_toEndOf="@+id/textViewId"
-            app:layout_constraintTop_toTopOf="@+id/textViewId"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Step 1" />
 
         <ImageView

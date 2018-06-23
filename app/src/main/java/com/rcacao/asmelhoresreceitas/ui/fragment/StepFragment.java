@@ -37,6 +37,8 @@ public class StepFragment extends Fragment  {
     public static final String ARG_STEP = "step";
     public static final String ARG_TOTAL = "total";
     public static final String ARG_ID = "id";
+    public static final String ARG_PLAYBACK = "playback";
+    public static final String ARG_WINDOW = "window";
 
     @BindView(R.id.playerView)
     SimpleExoPlayerView playerView;
@@ -101,12 +103,21 @@ public class StepFragment extends Fragment  {
                 listID=args.getInt(ARG_ID);
             }
 
+            if (args.containsKey(ARG_PLAYBACK)){
+                playbackPosition=args.getLong(ARG_PLAYBACK);
+            }
+
+            if (args.containsKey(ARG_WINDOW)){
+                currentWindow=args.getInt(ARG_WINDOW);
+            }
+
         }
 
         if (mStep != null){
 
+            releasePlayer();
             videoUrl = mStep.getVideoURL();
-            reloadPlayer();
+            initializePlayer();
 
             playerView.setVisibility(videoUrl.isEmpty()? View.GONE : View.VISIBLE);
 
@@ -119,6 +130,8 @@ public class StepFragment extends Fragment  {
         }
 
     }
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -146,15 +159,20 @@ public class StepFragment extends Fragment  {
 
     @Override
     public void onPause() {
-        super.onPause();
+        saveTime();
         releasePlayer();
+        super.onPause();
+
     }
 
     @Override
     public void onStop() {
-        super.onStop();
+        saveTime();
         releasePlayer();
+        super.onStop();
+
     }
+
 
     private void initializePlayer(){
 
@@ -184,25 +202,28 @@ public class StepFragment extends Fragment  {
 
     }
 
-    private void releasePlayer(){
-        if (exoPlayer != null) {
+    private void saveTime(){
+        if (exoPlayer != null){
             playbackPosition = exoPlayer.getCurrentPosition();
             currentWindow = exoPlayer.getCurrentWindowIndex();
+        }
+    }
+
+    private void releasePlayer(){
+        if (exoPlayer != null) {
             exoPlayer.release();
             exoPlayer = null;
         }
     }
 
-    private void reloadPlayer(){
-
-        releasePlayer();
-
-        playbackPosition = C.TIME_UNSET ;
-        currentWindow= 0;
-
-        initializePlayer();
-
+    public long getVideoPlayback(){
+        return playbackPosition;
     }
+
+    public int getVideoWindow(){
+        return currentWindow;
+    }
+
 
     @OnClick(R.id.imageViewNext) public void onClickImageViewNext(){
         mCallback.onClickNext(listID);

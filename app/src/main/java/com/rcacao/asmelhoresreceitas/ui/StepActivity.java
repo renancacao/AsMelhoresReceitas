@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.rcacao.asmelhoresreceitas.R;
+import com.rcacao.asmelhoresreceitas.controlers.StepController;
 import com.rcacao.asmelhoresreceitas.data.models.Step;
 import com.rcacao.asmelhoresreceitas.ui.fragment.StepFragment;
 
@@ -16,8 +17,11 @@ public class StepActivity extends AppCompatActivity implements StepFragment.OnNa
     public static final String ARG_STEPS = "steps";
     public static final String ARG_ID = "id";
 
-    private Step steps[];
     private int id;
+
+
+
+    private StepController controller;
 
     private StepFragment stepFragment = new StepFragment();
 
@@ -27,6 +31,7 @@ public class StepActivity extends AppCompatActivity implements StepFragment.OnNa
         setContentView(R.layout.activity_step);
 
         Intent intent = getIntent();
+        Step[] steps = null;
 
         if (intent !=null){
             Parcelable parcels[] = intent.getParcelableArrayExtra(ARG_STEPS);
@@ -46,38 +51,53 @@ public class StepActivity extends AppCompatActivity implements StepFragment.OnNa
                 .replace(R.id.fragment_container,stepFragment)
                 .commit();
 
-        loadStep(id);
+        controller = new StepController(steps);
+
+        //verify saved instance
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(StepController.STATE_ID)) {
+                id = savedInstanceState.getInt(StepController.STATE_ID);
+            }
+            if (savedInstanceState.containsKey(StepController.STATE_PLAYBACK)) {
+                controller.setPlaybackPosition((long) savedInstanceState.getLong(StepController.STATE_PLAYBACK));
+            }
+            if (savedInstanceState.containsKey(StepController.STATE_WINDOW)) {
+                controller.setCurrentWindow(savedInstanceState.getInt(StepController.STATE_WINDOW));
+            }
+        }
+
+        controller.loadStep(id,stepFragment);
 
     }
 
-    private void loadStep(int idStep) {
 
-        Bundle args = new Bundle();
-        args.putParcelable(StepFragment.ARG_STEP, steps[idStep]);
-        args.putInt(StepFragment.ARG_TOTAL,steps.length);
-        args.putInt(StepFragment.ARG_ID,idStep);
-
-        stepFragment.setArguments(args);
-        stepFragment.loadStep();
-
-    }
 
 
     @Override
     public void onClickNext(int actualId) {
 
-        if (actualId < steps.length-1){
-            loadStep(actualId+1);
-        }
+       id = controller.loadNext(actualId,stepFragment);
 
     }
 
     @Override
     public void onClickPrevious(int actualId) {
 
-        if (actualId > 0){
-            loadStep(actualId-1);
+        id = controller.loadPrevious(actualId,stepFragment);
+
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        outState.putInt(StepController.STATE_ID,id);
+        if (stepFragment != null){
+            outState.putLong(StepController.STATE_PLAYBACK,(long) stepFragment.getVideoPlayback());
+            outState.putInt(StepController.STATE_WINDOW,stepFragment.getVideoWindow());
         }
 
+
+        super.onSaveInstanceState(outState);
     }
 }
