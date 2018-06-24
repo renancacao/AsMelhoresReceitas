@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/mnuFav"
+        android:title="@string/fav_mark"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_star_border"/>
+
+    <item android:id="@+id/mnuDesFav"
+        android:title="@string/fav_desmark"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_star"
+        />
+</menu>

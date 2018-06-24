@@ -8,4 +8,21 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="textIngredient">
+        <item name="android:textStyle">italic|bold</item>
+    </style>
+
+    <style name="textIngredientDetails">
+        <item name="android:textStyle">italic</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="textGenericTitle">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

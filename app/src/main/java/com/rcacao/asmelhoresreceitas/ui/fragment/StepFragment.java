@@ -124,8 +124,8 @@ public class StepFragment extends Fragment  {
             textViewDescription.setText(mStep.getDescription());
             textViewTitle.setText(String.format(Locale.getDefault(),"%d. %s", mStep.getId(), mStep.getTitle()));
 
-            imageViewPrev.setVisibility(mStep.getId() > 0 ? View.VISIBLE : View.INVISIBLE);
-            imageViewNext.setVisibility(mStep.getId() < totalSteps-1 ? View.VISIBLE : View.INVISIBLE);
+            imageViewPrev.setVisibility(listID > 0 ? View.VISIBLE : View.INVISIBLE);
+            imageViewNext.setVisibility(listID < totalSteps-1 ? View.VISIBLE : View.INVISIBLE);
 
         }
 

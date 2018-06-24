@@ -16,10 +16,9 @@ public class StepActivity extends AppCompatActivity implements StepFragment.OnNa
 
     public static final String ARG_STEPS = "steps";
     public static final String ARG_ID = "id";
+    public static final String ARG_TITLE = "title";
 
     private int id;
-
-
 
     private StepController controller;
 
@@ -32,6 +31,7 @@ public class StepActivity extends AppCompatActivity implements StepFragment.OnNa
 
         Intent intent = getIntent();
         Step[] steps = null;
+        String title = "";
 
         if (intent !=null){
             Parcelable parcels[] = intent.getParcelableArrayExtra(ARG_STEPS);
@@ -39,12 +39,15 @@ public class StepActivity extends AppCompatActivity implements StepFragment.OnNa
                 steps = Arrays.copyOf(parcels, parcels.length, Step[].class);
             }
             id = intent.getIntExtra(ARG_ID,0);
+            title = intent.getStringExtra(ARG_TITLE);
         }
 
         if (steps==null){
             finish();
             return;
         }
+
+        setTitle(title);
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -67,6 +70,7 @@ public class StepActivity extends AppCompatActivity implements StepFragment.OnNa
         }
 
         controller.loadStep(id,stepFragment);
+
 
     }
 

@@ -1,14 +1,23 @@
 package com.rcacao.asmelhoresreceitas.ui;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.rcacao.asmelhoresreceitas.R;
 import com.rcacao.asmelhoresreceitas.controlers.StepController;
+import com.rcacao.asmelhoresreceitas.data.local.DbHelper;
 import com.rcacao.asmelhoresreceitas.data.models.Recipe;
 import com.rcacao.asmelhoresreceitas.ui.fragment.ListFragment;
 import com.rcacao.asmelhoresreceitas.ui.fragment.StepFragment;
+import com.rcacao.asmelhoresreceitas.widget.ReceitasWidgetProvider;
 
 import butterknife.ButterKnife;
 
@@ -17,12 +26,15 @@ public class RecipeActivity extends AppCompatActivity implements ListFragment.On
 
 
     public static final String ARG_RECIPE = "recipe";
+    public static final String PREF_FAV = "pref_fav";
 
     private Recipe recipe = null;
     private boolean twoPanel = false;
     private StepController controller = null;
     private int idStep = 0;
     private StepFragment stepFragment;
+    private MenuItem mnuFav;
+    private MenuItem mnuDesFav;
 
 
     @Override
@@ -42,6 +54,8 @@ public class RecipeActivity extends AppCompatActivity implements ListFragment.On
             finish();
         }
 
+        setTitle(recipe.getName());
+        
         passRecipeToFragment(recipe);
 
         twoPanel = findViewById(R.id.fragment_container) != null && recipe.getSteps() != null;
@@ -51,6 +65,72 @@ public class RecipeActivity extends AppCompatActivity implements ListFragment.On
             loadStepFragment(savedInstanceState);
 
         }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_recipe,menu);
+        mnuFav = menu.findItem(R.id.mnuFav);
+        mnuDesFav = menu.findItem(R.id.mnuDesFav);
+
+        verifyMenu();
+        return true;
+    }
+
+    private void verifyMenu() {
+
+        String fav = PreferenceManager.
+                getDefaultSharedPreferences(this).getString(PREF_FAV,"");
+
+        if (fav.equals(recipe.getName())){
+            mnuDesFav.setVisible(true);
+            mnuFav.setVisible(false);
+        }
+        else{
+            mnuDesFav.setVisible(false);
+            mnuFav.setVisible(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        String title = "";
+
+        if (item.getItemId()==R.id.mnuDesFav){
+            new DbHelper(this).removeIngredients();
+            PreferenceManager.getDefaultSharedPreferences(this)
+                    .edit().putString(PREF_FAV,"").apply();
+
+            Toast.makeText(this, R.string.toast_desfav, Toast.LENGTH_SHORT).show();
+
+        }
+        else if (item.getItemId()==R.id.mnuFav){
+            new DbHelper(this).changeIngredients(recipe.getIngredients());
+            PreferenceManager.getDefaultSharedPreferences(this)
+                    .edit().putString(PREF_FAV,recipe.getName()).apply();
+
+            Toast.makeText(this, R.string.toast_fav, Toast.LENGTH_SHORT).show();
+
+            title = recipe.getName();
+        }
+
+        updateWidget(title);
+
+        verifyMenu();
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void updateWidget(String title) {
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, ReceitasWidgetProvider.class));
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_list);
+        ReceitasWidgetProvider.updateWidgets(this, appWidgetManager,  appWidgetIds, title);
 
     }
 
@@ -99,6 +179,7 @@ public class RecipeActivity extends AppCompatActivity implements ListFragment.On
             Intent intent = new Intent(this, StepActivity.class);
             intent.putExtra(StepActivity.ARG_STEPS, recipe.getSteps());
             intent.putExtra(StepActivity.ARG_ID,id);
+            intent.putExtra(StepActivity.ARG_TITLE,recipe.getName());
 
             startActivity(intent);
         }

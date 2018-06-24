@@ -9,6 +9,33 @@ public class Ingredient implements ListItem, Parcelable{
     private String measure;
     private String ingredient;
 
+    public void setQuantity(String quantity) {
+        this.quantity = Double.parseDouble(quantity);
+    }
+
+    public void setMeasure(String measure) {
+        this.measure = measure;
+    }
+
+    public void setIngredient(String ingredient) {
+        this.ingredient = ingredient;
+    }
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public String getMeasure() {
+        return measure;
+    }
+
+    public String getIngredient() {
+        return ingredient;
+    }
+
+    public Ingredient() {
+    }
+
     private Ingredient(Parcel in) {
         quantity = in.readDouble();
         measure = in.readString();
@@ -39,17 +66,17 @@ public class Ingredient implements ListItem, Parcelable{
 
     @Override
     public String getTitle() {
-        return ingredient;
+        return getIngredient();
     }
 
     @Override
     public String getAuxText1() {
-        return String.valueOf(quantity);
+        return String.valueOf(getQuantity());
     }
 
     @Override
     public String getAuxText2() {
-        return measure;
+        return getMeasure();
     }
 
     @Override

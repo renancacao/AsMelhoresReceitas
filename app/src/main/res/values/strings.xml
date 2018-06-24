@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">As melhores receitas</string>
+    <string name="ingredientes">Ingredientes</string>
+    <string name="fav_mark">Marcar como favorito</string>
+    <string name="fav_desmark">Desmarcar como favorito</string>
+    <string name="toast_fav">Receita marcada como favorita!</string>
+    <string name="toast_desfav">Receita desmarcada!</string>
+    <string name="text_no_fav">Nenhuma receita marcada como favorita!</string>
 </resources>
