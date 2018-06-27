@@ -21,8 +21,8 @@ public class RecipeItemAdapter extends RecyclerView.Adapter<RecipeItemAdapter.Re
     private final static int VIEW_STEP = 1;
     private final static int VIEW_GENERIC = 2;
 
-    private ArrayList<ListItem> itens;
-    private RecipeItemAdapterClickHandler handler;
+    private final ArrayList<ListItem> itens;
+    private final RecipeItemAdapterClickHandler handler;
 
     public interface RecipeItemAdapterClickHandler{
         void clickRecipeItem(int id);
@@ -76,48 +76,48 @@ public class RecipeItemAdapter extends RecyclerView.Adapter<RecipeItemAdapter.Re
 
         ListItem item = itens.get(position);
 
-        if (ListItem.TYPE_INGREDIENT.equals(item.getType())){
+        switch (item.getType()) {
+            case ListItem.TYPE_INGREDIENT:
 
-            holder.textViewIngredient.setText(item.getTitle());
-            holder.textViewQuantity.setText(item.getAuxText1());
-            holder.textViewMeasure.setText(item.getAuxText2());
+                holder.textViewIngredient.setText(item.getTitle());
+                holder.textViewQuantity.setText(item.getAuxText1());
+                holder.textViewMeasure.setText(item.getAuxText2());
 
-        }
-        else if (ListItem.TYPE_STEP.equals(item.getType())) {
-            //Step
+                break;
+            case ListItem.TYPE_STEP:
+                //Step
 
-            holder.textViewId.setText(String.format(Locale.getDefault(), "%d.", item.getId()));
-            holder.textViewStep.setText(item.getTitle());
+                holder.textViewId.setText(String.format(Locale.getDefault(), "%d.", item.getId()));
+                holder.textViewStep.setText(item.getTitle());
 
-            //video url
-            if (item.getAuxText1() == null || item.getAuxText1().isEmpty()){
-                holder.imageViewClip.setVisibility(View.INVISIBLE);
-            }
-            else {
-                holder.imageViewClip.setVisibility(View.VISIBLE);
-            }
+                //video url
+                if (item.getAuxText1() == null || item.getAuxText1().isEmpty()) {
+                    holder.imageViewClip.setVisibility(View.INVISIBLE);
+                } else {
+                    holder.imageViewClip.setVisibility(View.VISIBLE);
+                }
 
-            //thumb url
-            MyUtils.loadImage(holder.imageViewStep,item.getAuxText2());
+                //thumb url
+                MyUtils.loadImage(holder.imageViewStep, item.getAuxText2());
 
-            holder.bindClick(position);
+                holder.bindClick(position);
 
-        }
-        else{
+                break;
+            default:
 
-            holder.textViewTitle.setText(item.getTitle());
+                holder.textViewTitle.setText(item.getTitle());
 
-            if (item.getAuxText1().isEmpty()){
-                holder.textViewAux1.setVisibility(View.GONE);
-            }
-            else{
-                holder.textViewAux1.setVisibility(View.VISIBLE);
-                holder.textViewAux1.setText(item.getAuxText1());
-            }
+                if (item.getAuxText1().isEmpty()) {
+                    holder.textViewAux1.setVisibility(View.GONE);
+                } else {
+                    holder.textViewAux1.setVisibility(View.VISIBLE);
+                    holder.textViewAux1.setText(item.getAuxText1());
+                }
 
-            //image generic
-            MyUtils.loadImage(holder.imageViewGeneric,item.getAuxText2());
+                //image generic
+                MyUtils.loadImage(holder.imageViewGeneric, item.getAuxText2());
 
+                break;
         }
 
 
@@ -136,18 +136,18 @@ public class RecipeItemAdapter extends RecyclerView.Adapter<RecipeItemAdapter.Re
 
     class RecipeItensViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewId;
-        TextView textViewStep;
-        ImageView imageViewClip;
-        ImageView imageViewStep;
+        final TextView textViewId;
+        final TextView textViewStep;
+        final ImageView imageViewClip;
+        final ImageView imageViewStep;
 
-        TextView textViewIngredient;
-        TextView textViewQuantity;
-        TextView textViewMeasure;
+        final TextView textViewIngredient;
+        final TextView textViewQuantity;
+        final TextView textViewMeasure;
 
-        TextView textViewTitle;
-        TextView textViewAux1;
-        ImageView imageViewGeneric;
+        final TextView textViewTitle;
+        final TextView textViewAux1;
+        final ImageView imageViewGeneric;
 
         RecipeItensViewHolder(View itemView) {
 

@@ -1,10 +1,9 @@
 package com.rcacao.asmelhoresreceitas.ui;
 
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,7 +16,7 @@ import com.rcacao.asmelhoresreceitas.data.local.DbHelper;
 import com.rcacao.asmelhoresreceitas.data.models.Recipe;
 import com.rcacao.asmelhoresreceitas.ui.fragment.ListFragment;
 import com.rcacao.asmelhoresreceitas.ui.fragment.StepFragment;
-import com.rcacao.asmelhoresreceitas.widget.ReceitasWidgetProvider;
+import com.rcacao.asmelhoresreceitas.utils.MyUtils;
 
 import butterknife.ButterKnife;
 
@@ -118,21 +117,14 @@ public class RecipeActivity extends AppCompatActivity implements ListFragment.On
             title = recipe.getName();
         }
 
-        updateWidget(title);
+        MyUtils.refreshWidget(title, this);
 
         verifyMenu();
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void updateWidget(String title) {
 
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, ReceitasWidgetProvider.class));
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_list);
-        ReceitasWidgetProvider.updateWidgets(this, appWidgetManager,  appWidgetIds, title);
-
-    }
 
     private void loadStepFragment(Bundle savedInstanceState) {
         controller = new StepController(recipe.getSteps());
@@ -203,4 +195,10 @@ public class RecipeActivity extends AppCompatActivity implements ListFragment.On
         idStep = controller.loadNext(actualId,stepFragment);
 
     }
+
+    @VisibleForTesting
+    public boolean isTwoPanel() {
+        return twoPanel;
+    }
+
 }

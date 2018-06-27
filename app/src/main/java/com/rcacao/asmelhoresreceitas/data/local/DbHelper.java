@@ -100,7 +100,6 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         else
         {
-                cursor.close();
                 return null;
         }
 

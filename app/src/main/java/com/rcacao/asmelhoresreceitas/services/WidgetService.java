@@ -1,4 +1,4 @@
-package com.rcacao.asmelhoresreceitas.widget.service;
+package com.rcacao.asmelhoresreceitas.services;
 
 import android.content.Intent;
 import android.widget.RemoteViewsService;

@@ -12,6 +12,9 @@ public class Recipe implements Parcelable{
     private Integer servings;
     private String image;
 
+    public Recipe() {
+    }
+
     private Recipe(Parcel in) {
         id = in.readInt();
         name = in.readString();
@@ -37,12 +40,24 @@ public class Recipe implements Parcelable{
         }
     };
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
 
     public Ingredient[] getIngredients() {
         return ingredients;
+    }
+
+    public void setIngredients(Ingredient[] ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public void setSteps(Step[] steps) {
+        this.steps = steps;
     }
 
     public Step[] getSteps() {
@@ -60,6 +75,8 @@ public class Recipe implements Parcelable{
     public void setImage(String image) {
         this.image = image;
     }
+
+
 
     @Override
     public int describeContents() {
@@ -80,4 +97,6 @@ public class Recipe implements Parcelable{
         }
         parcel.writeString(image);
     }
+
+
 }

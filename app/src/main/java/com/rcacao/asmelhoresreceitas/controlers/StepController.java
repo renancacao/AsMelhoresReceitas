@@ -71,7 +71,4 @@ public class StepController {
         return 0;
     }
 
-    public void setSteps(Step[] steps) {
-        this.steps = steps;
-    }
 }

@@ -34,6 +34,7 @@
             android:cropToPadding="false"
             android:scaleType="fitCenter"
             android:visibility="gone"
+            android:contentDescription="@string/receip_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -55,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Porções"
+            android:text="@string/portions"
             app:layout_constraintStart_toEndOf="@+id/textViewServings"
             app:layout_constraintTop_toTopOf="@+id/textViewServings" />
     </android.support.constraint.ConstraintLayout>

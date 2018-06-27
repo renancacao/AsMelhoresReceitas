@@ -3,9 +3,9 @@ package com.rcacao.asmelhoresreceitas.data.models;
 public class GenericItem implements ListItem {
 
 
-    private String title;
-    private String auxText1;
-    private String auxText2;
+    private final String title;
+    private final String auxText1;
+    private final String auxText2;
 
     public GenericItem(String title, String auxText1, String auxText2) {
         this.title = title;

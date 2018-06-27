@@ -26,6 +26,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
+        android:visibility="visible"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -65,6 +66,7 @@
         android:layout_height="50dp"
         android:layout_marginBottom="16dp"
         android:layout_marginStart="16dp"
+        android:contentDescription="@string/previous"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_navigate_prev" />
@@ -75,6 +77,7 @@
         android:layout_height="50dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
+        android:contentDescription="@string/next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_navigate_next" />

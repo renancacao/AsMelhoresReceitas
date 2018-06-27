@@ -19,6 +19,10 @@ public class Step implements ListItem, Parcelable {
         return description;
     }
 
+    public Step(){
+
+    }
+
     private Step(Parcel in) {
         id = in.readInt();
         shortDescription = in.readString();
@@ -62,6 +66,26 @@ public class Step implements ListItem, Parcelable {
     @Override
     public String getAuxText2() {
         return thumbnailURL;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setVideoURL(String videoURL) {
+        this.videoURL = videoURL;
+    }
+
+    public void setThumbnailURL(String thumbnailURL) {
+        this.thumbnailURL = thumbnailURL;
     }
 
     @Override

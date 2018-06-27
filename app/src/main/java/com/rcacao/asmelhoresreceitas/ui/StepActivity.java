@@ -22,7 +22,7 @@ public class StepActivity extends AppCompatActivity implements StepFragment.OnNa
 
     private StepController controller;
 
-    private StepFragment stepFragment = new StepFragment();
+    private final StepFragment stepFragment = new StepFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

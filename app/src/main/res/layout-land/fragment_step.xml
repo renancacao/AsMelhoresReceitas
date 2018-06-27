@@ -68,12 +68,14 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toStartOf="@+id/imageViewNext"
         app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/previous"
         app:srcCompat="@drawable/ic_navigate_prev" />
 
     <ImageView
         android:id="@+id/imageViewNext"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:contentDescription="@string/next"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"

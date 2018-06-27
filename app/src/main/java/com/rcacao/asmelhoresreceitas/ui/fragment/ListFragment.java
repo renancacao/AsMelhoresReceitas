@@ -29,8 +29,8 @@ public class ListFragment extends Fragment  implements RecipeItemAdapter.RecipeI
     @BindView(R.id.recyclerViewRecipeItens)
     RecyclerView recyclerViewRecipeItens;
 
-    ArrayList<ListItem> itens;
-    RecipeItemAdapter adapter;
+    private ArrayList<ListItem> itens;
+    private RecipeItemAdapter adapter;
 
     private int inicioSteps;
     private Recipe recipe = null;
@@ -86,14 +86,18 @@ public class ListFragment extends Fragment  implements RecipeItemAdapter.RecipeI
         inicioSteps++;
         itens.add(new GenericItem("Ingredientes", "",""));
 
-        inicioSteps+=recipe.getIngredients().length;
-        itens.addAll(Arrays.asList(recipe.getIngredients()));
+        if (recipe.getIngredients()!= null) {
+            inicioSteps += recipe.getIngredients().length;
+            itens.addAll(Arrays.asList(recipe.getIngredients()));
+        }
 
         //passo a passo
         inicioSteps++;
         itens.add(new GenericItem("Passo a passo", "",""));
 
-        itens.addAll(Arrays.asList(recipe.getSteps()));
+        if(recipe.getSteps()!=null) {
+            itens.addAll(Arrays.asList(recipe.getSteps()));
+        }
 
         adapter = new RecipeItemAdapter(itens, this);
         recyclerViewRecipeItens.setAdapter(adapter);

@@ -1,9 +1,16 @@
 <resources>
     <string name="app_name">As melhores receitas</string>
-    <string name="ingredientes">Ingredientes</string>
     <string name="fav_mark">Marcar como favorito</string>
     <string name="fav_desmark">Desmarcar como favorito</string>
     <string name="toast_fav">Receita marcada como favorita!</string>
     <string name="toast_desfav">Receita desmarcada!</string>
     <string name="text_no_fav">Nenhuma receita marcada como favorita!</string>
+    <string name="net_error">Ops! Parece que você não está conectado na internet, ou o servidor remoto não respondeu.</string>
+    <string name="try_again">Clique para tentar novamente.</string>
+    <string name="next">Próximo passo</string>
+    <string name="previous">Passo anterior</string>
+    <string name="receip_image">Imagem da receita</string>
+    <string name="step_image">Imagem do passo</string>
+    <string name="video_mark">Indicador de vídeo</string>
+    <string name="portions">Porções</string>
 </resources>

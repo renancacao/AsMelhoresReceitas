@@ -36,7 +36,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageViewClip"
             app:layout_constraintStart_toEndOf="@+id/textViewId"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewStep"
             tools:text="Step 1" />
 
         <ImageView
@@ -44,8 +44,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/step_image"
             android:cropToPadding="false"
-            android:scaleType="fitXY"
+            android:scaleType="fitCenter"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -57,6 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:contentDescription="@string/video_mark"
             app:layout_constraintBottom_toBottomOf="@+id/textViewStep"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textViewStep"

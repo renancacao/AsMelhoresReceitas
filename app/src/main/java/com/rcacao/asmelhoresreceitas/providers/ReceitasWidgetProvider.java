@@ -1,4 +1,4 @@
-package com.rcacao.asmelhoresreceitas.widget;
+package com.rcacao.asmelhoresreceitas.providers;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -12,7 +12,7 @@ import android.widget.RemoteViews;
 import com.rcacao.asmelhoresreceitas.R;
 import com.rcacao.asmelhoresreceitas.ui.MainActivity;
 import com.rcacao.asmelhoresreceitas.ui.RecipeActivity;
-import com.rcacao.asmelhoresreceitas.widget.service.WidgetService;
+import com.rcacao.asmelhoresreceitas.services.WidgetService;
 
 public class ReceitasWidgetProvider extends AppWidgetProvider{
 
@@ -34,8 +34,8 @@ public class ReceitasWidgetProvider extends AppWidgetProvider{
         }
     }
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId, String title) {
+    private static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+                                        int appWidgetId, String title) {
 
         RemoteViews rv;
         rv = getRemoteView(context,appWidgetId,title);
@@ -50,9 +50,11 @@ public class ReceitasWidgetProvider extends AppWidgetProvider{
         Intent appIntent = new Intent(context, MainActivity.class);
         PendingIntent appPendingIntent = PendingIntent.getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setPendingIntentTemplate(R.id.widget_list, appPendingIntent);
+        views.setPendingIntentTemplate(R.id.widget_layout, appPendingIntent);
+        views.setPendingIntentTemplate(R.id.widget_textView, appPendingIntent);
         views.setEmptyView(R.id.widget_list, R.id.widget_empty_view);
 
-            views.setTextViewText(R.id.widget_textView,title);
+        views.setTextViewText(R.id.widget_textView,title);
 
         Intent intent = new Intent(context, WidgetService.class);
         intent.setData( Uri.fromParts("content", String.valueOf(appWidgetId), null));
@@ -60,4 +62,6 @@ public class ReceitasWidgetProvider extends AppWidgetProvider{
 
         return views;
     }
+
+
 }

@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
     private Recipe[] recipes;
-    private RecipeAdapterClickHandler handler;
+    private final RecipeAdapterClickHandler handler;
 
     public interface RecipeAdapterClickHandler{
         void clickRecipe(int id);

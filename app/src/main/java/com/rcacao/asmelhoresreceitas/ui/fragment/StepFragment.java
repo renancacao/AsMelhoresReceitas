@@ -55,7 +55,7 @@ public class StepFragment extends Fragment  {
     @BindView(R.id.imageViewPrev)
     ImageView imageViewPrev;
 
-    SimpleExoPlayer exoPlayer;
+    private SimpleExoPlayer exoPlayer;
 
     private Step mStep;
     private int listID=-1;
@@ -116,7 +116,9 @@ public class StepFragment extends Fragment  {
         if (mStep != null){
 
             releasePlayer();
-            videoUrl = mStep.getVideoURL();
+            if (mStep.getVideoURL() != null) {
+                videoUrl = mStep.getVideoURL();
+            }
             initializePlayer();
 
             playerView.setVisibility(videoUrl.isEmpty()? View.GONE : View.VISIBLE);
@@ -175,6 +177,8 @@ public class StepFragment extends Fragment  {
 
 
     private void initializePlayer(){
+
+        if(videoUrl==null){return;}
 
         if (exoPlayer == null && !videoUrl.isEmpty()){
             Context context = getContext();

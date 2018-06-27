@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:context=".ui.RecipeActivity" />
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -30,7 +30,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="InconsistentLayout" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
